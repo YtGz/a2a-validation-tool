@@ -192,6 +192,7 @@ class A2AClient {
     const params = {
       message: {
         role: 'user',
+        messageId: uuidv4(),
         parts: messageParts
       },
       configuration: {
@@ -305,6 +306,7 @@ class A2AClient {
     const params = {
       message: {
         role: 'user',
+        messageId: uuidv4(),
         parts: messageParts
       },
       configuration: {
@@ -313,7 +315,7 @@ class A2AClient {
     };
     
     // Create the JSON-RPC request
-    const jsonRpcRequest = this._createJsonRpcRequest('message/stream', params);
+    const jsonRpcRequest = this._createJsonRpcRequest('message/send', params);
 
     try {
       // Log the actual JSON-RPC payload being sent

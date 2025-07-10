@@ -309,8 +309,26 @@ function App() {
     let state = null;
     let artifacts = null;
     
+    // Handle JSON-RPC error responses
+    if (response.jsonrpc === '2.0' && response.error) {
+      content = `Error: ${response.error.message || 'Unknown error'}`;
+      log('error', 'JSON-RPC error response', response.error);
+      return { content, state, artifacts };
+    }
+    
     // Check if it's a JSON-RPC response from current agents
     if (response.jsonrpc === '2.0' && response.result) {
+      // Check for new format with result.parts directly
+      if (response.result.parts && Array.isArray(response.result.parts)) {
+        for (const part of response.result.parts) {
+          if (part.kind === 'text' && part.text) {
+            log('info', 'Found text in result.parts', part.text);
+            content = part.text;
+            break;
+          }
+        }
+      }
+      
       // Extract state if available
       if (response.result.status && response.result.status.state) {
         state = response.result.status.state;
@@ -439,6 +457,7 @@ function App() {
       params: {
         message: {
           role: "user",
+          messageId: uuidv4(),
           parts: [
             {
               type: "text",

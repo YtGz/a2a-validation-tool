@@ -435,10 +435,8 @@ function App() {
     const requestObject = {
       jsonrpc: "2.0",
       id: uuidv4(),
-      method: "sendTask",
+      method: "message/send",
       params: {
-        id: taskId,
-        sessionId: sessionId,
         message: {
           role: "user",
           parts: [
@@ -447,6 +445,9 @@ function App() {
               text: message
             }
           ]
+        },
+        configuration: {
+          acceptedOutputModes: ["text"]
         }
       }
     };

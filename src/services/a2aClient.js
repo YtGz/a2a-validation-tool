@@ -188,19 +188,19 @@ class A2AClient {
       this._log('info', 'Added file to task', { fileName: file.name });
     }
     
-    // Create the params object
+    // Create the params object using MessageSendParams format
     const params = {
-      id: taskId,
-      sessionId: actualSessionId,
-      acceptedOutputModes: ['text'],
       message: {
         role: 'user',
         parts: messageParts
+      },
+      configuration: {
+        acceptedOutputModes: ['text']
       }
     };
     
     // Create the JSON-RPC request
-    const jsonRpcRequest = this._createJsonRpcRequest('tasks/send', params);
+    const jsonRpcRequest = this._createJsonRpcRequest('message/send', params);
     
     try {
       this._log('info', 'Sending task request to agent', { 
@@ -301,19 +301,19 @@ class A2AClient {
       this._log('info', 'Added file to streaming task', { fileName: file.name });
     }
     
-    // Create the params object
+    // Create the params object using MessageSendParams format
     const params = {
-      id: taskId,
-      sessionId: actualSessionId,
-      acceptedOutputModes: ['text'],
       message: {
         role: 'user',
         parts: messageParts
+      },
+      configuration: {
+        acceptedOutputModes: ['text']
       }
     };
     
     // Create the JSON-RPC request
-    const jsonRpcRequest = this._createJsonRpcRequest('tasks/send', params);
+    const jsonRpcRequest = this._createJsonRpcRequest('message/stream', params);
 
     try {
       // Log the actual JSON-RPC payload being sent
